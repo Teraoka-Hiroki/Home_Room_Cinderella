@@ -4,7 +4,7 @@ import streamlit as st
 import numpy as np
 import pandas as pd
 import math
-
+from base64 import b64encode
 
 # タイトルの表示
 st.title("ホームルーム シンデレラ")
