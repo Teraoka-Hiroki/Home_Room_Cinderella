@@ -317,7 +317,7 @@ try:
           for i in range(N):
             value1 = value1 + sample_array[i][k] * w1[i]
           st.write(f'{value1=}')
-          cost1 = cost1 + (value - W1u)**2
+          cost1 = cost1 + (value1 - W1u)**2
         cost1 = 1/K * cost1
         st.write(f'{cost1=}')
         standard_deviation1 = math.sqrt(cost1)#標準偏差
