@@ -6,15 +6,22 @@ import pandas as pd
 import math
 from base64 import b64encode
 
+import amplify
+from amplify import FixstarsClient
+from amplify import solve, FixstarsClient
+from amplify import Solver
+import os
+
 # タイトルの表示
-st.title("ホームルーム シンデレラ")
+st.title("ホームルーム シンデレラ BASIC")
 
 # 説明の表示
 st.write("「生徒のクラス分け」アプリ")
 st.write("量子アニーリングマシン：Fixstars Amplify")
 
 def process_uploaded_file(file):
-    df, column11_data, column12_data,column13_data,column14_data,column15_data,column16_data,column17_data,column2_data, column3_data = None, None, None, None, None,None,None,None,None, None
+    df, column11_data, column12_data,column13_data,column14_data,column15_data,column16_data,column17_data,\
+      column2_data, column3_data = None, None, None, None, None,None,None,None,None, None
     try:
         # CSVファイルを読み込む
         df = pd.read_csv(file)
@@ -35,7 +42,8 @@ def process_uploaded_file(file):
     except Exception as e:
         st.error(f"エラーが発生しました: {e}")
 
-    return df, column11_data,column12_data,column13_data,column14_data,column15_data,column16_data,column17_data ,column2_data, column3_data
+    return df, column11_data,column12_data,column13_data,column14_data,column15_data,column16_data,column17_data ,\
+      column2_data, column3_data
 
 def upload_file_youin():
     st.write("生徒の属性ファイルのアップロード")
@@ -44,7 +52,8 @@ def upload_file_youin():
     if uploaded_file is not None:
         # アップロードされたファイルを処理
         with st.spinner("ファイルを処理中..."):
-            df, column11_data,column12_data,column13_data,column14_data,column15_data,column16_data,column17_data, column2_data, column3_data = process_uploaded_file(uploaded_file)
+            df, column11_data,column12_data,column13_data,column14_data,column15_data,column16_data,column17_data, \
+              column2_data, column3_data = process_uploaded_file(uploaded_file)
 
         # アップロードが成功しているか確認
         if df is not None:
@@ -143,14 +152,11 @@ try:
             ##########
             # 求解
             ##########
-        import amplify
-        from amplify.client import FixstarsClient
-        from amplify import Solver
 
             # 実行マシンクライアントの設定
         client = FixstarsClient()
         client.token = token
-        client.parameters.timeout = 1 * 500  # タイムアウト1秒
+        client.parameters.timeout = 1 * 200  # タイムアウト0.2秒
 
             # アニーリングマシンの実行
         solver = Solver(client)  # ソルバーに使用するクライアントを設定
@@ -175,20 +181,20 @@ try:
         st.write('')
         st.write('結果の確認')
         #生徒の成績テーブルの平均
-        Wu = 1/K * sum(w11[i]*sum(sample_array[i][k] for k in range(K)) for i in range(N))
-        st.write('成績1：'f'ave={Wu}')
-        Wu = 1/K * sum(w12[i]*sum(sample_array[i][k] for k in range(K)) for i in range(N))
-        st.write('成績2：'f'ave={Wu}')
-        Wu = 1/K * sum(w13[i]*sum(sample_array[i][k] for k in range(K)) for i in range(N))
-        st.write('成績3：'f'ave={Wu}')
-        Wu = 1/K * sum(w14[i]*sum(sample_array[i][k] for k in range(K)) for i in range(N))
-        st.write('成績4：'f'ave={Wu}')
-        Wu = 1/K * sum(w15[i]*sum(sample_array[i][k] for k in range(K)) for i in range(N))
-        st.write('成績5：'f'ave={Wu}')
-        Wu = 1/K * sum(w16[i]*sum(sample_array[i][k] for k in range(K)) for i in range(N))
-        st.write('成績6：'f'ave={Wu}')
-        Wu = 1/K * sum(w17[i]*sum(sample_array[i][k] for k in range(K)) for i in range(N))
-        st.write('成績7：'f'ave={Wu}')
+        Wu11 = 1/K * sum(w11[i]*sum(sample_array[i][k] for k in range(K)) for i in range(N))
+        st.write('成績1：'f'ave={Wu11}')
+        Wu12 = 1/K * sum(w12[i]*sum(sample_array[i][k] for k in range(K)) for i in range(N))
+        st.write('成績2：'f'ave={Wu12}')
+        Wu13 = 1/K * sum(w13[i]*sum(sample_array[i][k] for k in range(K)) for i in range(N))
+        st.write('成績3：'f'ave={Wu13}')
+        Wu14 = 1/K * sum(w14[i]*sum(sample_array[i][k] for k in range(K)) for i in range(N))
+        st.write('成績4：'f'ave={Wu14}')
+        Wu15 = 1/K * sum(w15[i]*sum(sample_array[i][k] for k in range(K)) for i in range(N))
+        st.write('成績5：'f'ave={Wu15}')
+        Wu16 = 1/K * sum(w16[i]*sum(sample_array[i][k] for k in range(K)) for i in range(N))
+        st.write('成績6：'f'ave={Wu16}')
+        Wu17 = 1/K * sum(w17[i]*sum(sample_array[i][k] for k in range(K)) for i in range(N))
+        st.write('成績7：'f'ave={Wu17}')
 
         W1u = 1/K * sum(w1[i]*sum(sample_array[i][k] for k in range(K)) for i in range(N))
         st.write('性別：'f'ave1={W1u}')
@@ -204,7 +210,7 @@ try:
           for i in range(N):
             value = value + sample_array[i][k] * w11[i]
           st.write(f'{value=}')
-          cost = cost + (value - Wu)**2
+          cost = cost + (value - Wu11)**2
         cost = 1/K * cost
         st.write(f'{cost=}')
         standard_deviation = math.sqrt(cost)#標準偏差
@@ -218,7 +224,7 @@ try:
           for i in range(N):
             value = value + sample_array[i][k] * w12[i]
           st.write(f'{value=}')
-          cost = cost + (value - Wu)**2
+          cost = cost + (value - Wu12)**2
         cost = 1/K * cost
         st.write(f'{cost=}')
         standard_deviation = math.sqrt(cost)#標準偏差
@@ -232,7 +238,7 @@ try:
           for i in range(N):
             value = value + sample_array[i][k] * w13[i]
           st.write(f'{value=}')
-          cost = cost + (value - Wu)**2
+          cost = cost + (value - Wu13)**2
         cost = 1/K * cost
         st.write(f'{cost=}')
         standard_deviation = math.sqrt(cost)#標準偏差
@@ -246,7 +252,7 @@ try:
           for i in range(N):
             value = value + sample_array[i][k] * w14[i]
           st.write(f'{value=}')
-          cost = cost + (value - Wu)**2
+          cost = cost + (value - Wu14)**2
         cost = 1/K * cost
         st.write(f'{cost=}')
         standard_deviation = math.sqrt(cost)#標準偏差
@@ -260,7 +266,7 @@ try:
           for i in range(N):
             value = value + sample_array[i][k] * w15[i]
           st.write(f'{value=}')
-          cost = cost + (value - Wu)**2
+          cost = cost + (value - Wu15)**2
         cost = 1/K * cost
         st.write(f'{cost=}')
         standard_deviation = math.sqrt(cost)#標準偏差
@@ -274,7 +280,7 @@ try:
           for i in range(N):
             value = value + sample_array[i][k] * w16[i]
           st.write(f'{value=}')
-          cost = cost + (value - Wu)**2
+          cost = cost + (value - Wu16)**2
         cost = 1/K * cost
         st.write(f'{cost=}')
         standard_deviation = math.sqrt(cost)#標準偏差
@@ -288,7 +294,7 @@ try:
           for i in range(N):
             value = value + sample_array[i][k] * w17[i]
           st.write(f'{value=}')
-          cost = cost + (value - Wu)**2
+          cost = cost + (value - Wu17)**2
         cost = 1/K * cost
         st.write(f'{cost=}')
         standard_deviation = math.sqrt(cost)#標準偏差
