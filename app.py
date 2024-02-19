@@ -15,8 +15,8 @@ import os
 st.title("ホームルーム シンデレラ BASIC")
 
 # 説明の表示
-st.write("「生徒のクラス分け」アプリ")
-st.write("量子アニーリングマシン：Fixstars Amplify")
+st.write("「生徒のクラス分け」アプリ  量子アニーリングマシン：Fixstars Amplify")
+#st.write("量子アニーリングマシン：Fixstars Amplify")
 
 def download_zip_file(zip_file_path, zip_file_name):
     with open(zip_file_path, "rb") as f:
