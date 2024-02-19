@@ -5,7 +5,6 @@ import numpy as np
 import pandas as pd
 import math
 from base64 import b64encode
-
 import amplify
 from amplify import FixstarsClient
 from amplify import solve, FixstarsClient
@@ -127,7 +126,7 @@ def download_csv(data, filename='data.csv'):
 
 
 # Streamlitアプリの実行ファイル（app.py）と同じディレクトリにあるZIPファイルを指定
-zip_file_name = "template_BACIC.zip"
+zip_file_name = "template_BASIC.zip"
 zip_file_path = os.path.join(os.path.dirname(__file__), zip_file_name)
 
 st.write("生徒の属性等のひな形をダウンロードしてください")
