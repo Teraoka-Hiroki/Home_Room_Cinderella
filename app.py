@@ -1,5 +1,5 @@
 # 以下を「app.py」に書き込み
-token = "AE/DA9enVyvhM3Y2SANsMCTLZKg9gTKmv23" # ご自身のトークンを入力
+#token = "" # ご自身のトークンを入力
 import streamlit as st
 import numpy as np
 import pandas as pd
