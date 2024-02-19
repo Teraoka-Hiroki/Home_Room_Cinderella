@@ -19,6 +19,17 @@ st.title("ホームルーム シンデレラ BASIC")
 st.write("「生徒のクラス分け」アプリ")
 st.write("量子アニーリングマシン：Fixstars Amplify")
 
+def download_zip_file(zip_file_path, zip_file_name):
+    with open(zip_file_path, "rb") as f:
+        zip_file_bytes = f.read()
+    st.download_button(
+        label="Download ZIP File",
+        data=zip_file_bytes,
+        file_name=zip_file_name,
+        mime="application/zip"
+    )
+
+
 def process_uploaded_file(file):
     df, column11_data, column12_data,column13_data,column14_data,column15_data,column16_data,column17_data,\
       column2_data, column3_data ,\
@@ -115,6 +126,24 @@ def download_csv(data, filename='data.csv'):
     ''', unsafe_allow_html=True)
 
 
+# Streamlitアプリの実行ファイル（app.py）と同じディレクトリにあるZIPファイルを指定
+zip_file_name = "template_BACIC.zip"
+zip_file_path = os.path.join(os.path.dirname(__file__), zip_file_name)
+
+st.write("生徒の属性等のひな形をダウンロードしてください")
+
+# ダウンロードボタンを表示
+download_zip_file(zip_file_path, zip_file_name)
+st.write("")
+
+uploaded_file = st.file_uploader("トークンのテキストファイルをアップロードしてください", type=['txt'])
+
+if uploaded_file is not None:
+        content = uploaded_file.getvalue().decode("utf-8")
+        token = content.strip()
+        st.success("トークン文字列を正常に読み込みました！")
+
+
 selected_number=0
 # プルダウンメニューで1から15までの整数を選択
 selected_number = st.selectbox("クラス数を選んでください", list(range(0, 16)))
@@ -133,11 +162,6 @@ try:
 
         N=len(w11)
         st.write("生徒数：N = ",N)
-
-        #except Exception as e:
-            # エラーが発生したときの処理
-        #    st.error("CSVファイルをアップロード後に処理されます".format(e))
-
 
         # 決定変数の作成
         from amplify import BinarySymbolGenerator, BinaryPoly
@@ -199,7 +223,7 @@ try:
             # 実行マシンクライアントの設定
         client = FixstarsClient()
         client.token = token
-        client.parameters.timeout = 1 * 200  # タイムアウト0.2秒
+        client.parameters.timeout = 1 * 500  # タイムアウト0.5秒
 
             # アニーリングマシンの実行
         solver = Solver(client)  # ソルバーに使用するクライアントを設定
